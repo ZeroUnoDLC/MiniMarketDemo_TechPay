@@ -1,0 +1,67 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+<f:metadata>
+	<f:event listener="#{beanSegLogin.actionVerificarLogin()}"
+		type="preRenderView"></f:event>
+</f:metadata>
+<h:head>
+	<title>Tipos de instrumentos musicales</title>
+</h:head>
+<body>
+	<p:growl>
+		<p:autoUpdate />
+	</p:growl>
+	<h:form>
+		<p:menubar>
+			<p:menuitem value="Regresar" icon="pi pi-home" action="menu" />
+			<p:menuitem value="Nuevo tipo de instrumento" icon="pi pi-volume-up"
+				action="#{beanTipoInstrumento.actionMenuNuevoTipoInstrumento()}" />
+			<f:facet name="options">
+				<p:menuButton value="#{beanSegLogin.loginDTO.correo}"
+					icon="pi pi-user">
+					<p:menuitem value="Perfil" icon="pi pi-cog"></p:menuitem>
+					<p:menuitem value="Cerrar sesión" icon="pi pi-sign-out"
+						action="#{beanSegLogin.actionCerrarSesion()}"></p:menuitem>
+				</p:menuButton>
+			</f:facet>
+		</p:menubar>
+	</h:form>
+	<p:panel>
+		<h:form>
+			<p:dataTable value="#{beanTipoInstrumento.listaTipoInstrumento}" var="instrumento"
+				paginator="true" rows="5">
+				<p:column headerText="ID" style="width:50px">
+					<h:outputText value="#{instrumento.id}" />
+				</p:column>
+				<p:column headerText="NOMBRE">
+					<h:outputText value="#{instrumento.nombre}" />
+				</p:column>
+				<p:column headerText="DESCRIPCIÓN">
+					<h:outputText value="#{instrumento.descripcion}" />
+				</p:column>				
+				<p:column headerText="OPCIONES">
+					<p:commandButton icon="pi pi-pencil" title="editar"
+						action="#{beanTipoInstrumento.actionSeleccionarEdicionTipoInstrumento(instrumento)}" />
+					<p:commandButton icon="pi pi-times-circle" title="eliminar"
+						styleClass="ui-button-danger" update="@form"
+						actionListener="#{beanTipoInstrumento.actionListenerEliminarTipoInstrumento(instrumento.id)}">
+						<p:confirm header="Confirmación"
+							message="La categoría solo se podrá borrar si está vacía, continuar?" icon="pi pi-info-circle" />
+					</p:commandButton>
+				</p:column>
+			</p:dataTable>
+		</h:form>
+	</p:panel>
+	<p:confirmDialog global="true" showEffect="fade" hideEffect="fade"
+		responsive="true" width="350">
+		<p:commandButton value="No" type="button"
+			styleClass="ui-confirmdialog-no ui-button-flat" />
+		<p:commandButton value="Sí" type="button"
+			styleClass="ui-confirmdialog-yes" />
+	</p:confirmDialog>
+</body>
+</html>

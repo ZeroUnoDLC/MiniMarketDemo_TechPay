@@ -1,0 +1,181 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+<f:metadata>
+	<f:event listener="#{beanSegLogin.actionVerificarLogin()}"
+		type="preRenderView"></f:event>
+</f:metadata>
+<h:head>
+	<title>Instrumentos musicales</title>
+</h:head>
+<body>
+	<p:growl>
+		<p:autoUpdate />
+	</p:growl>
+	<h:form>
+		<p:menubar>
+			<p:menuitem value="Regresar" icon="pi pi-home" action="menu" />
+			<f:facet name="options">
+				<p:menuButton value="#{beanSegLogin.loginDTO.correo}"
+					icon="pi pi-user">
+					<p:menuitem value="Perfil" icon="pi pi-cog"></p:menuitem>
+					<p:menuitem value="Cerrar sesión" icon="pi pi-sign-out"
+						action="#{beanSegLogin.actionCerrarSesion()}"></p:menuitem>
+				</p:menuButton>
+			</f:facet>
+		</p:menubar>
+	</h:form>
+	<p:panel>
+		<p:commandButton value="Nuevo instrumento" icon="pi pi-plus"
+			id="cmdNuevo"></p:commandButton>
+		<p:overlayPanel for="cmdNuevo" showCloseIcon="true">
+			<h:form>
+				<p:panelGrid columns="2">
+					<h:outputText value="Tipo de instrumento:" />
+					<p:selectOneMenu filterMatchMode="contains" filter="true"
+						value="#{beanInstrumentoMusical.idTipoInstrumento}">
+						<f:selectItem itemLabel="Seleccione el tipo"
+							noSelectionOption="true" />
+						<f:selectItems
+							value="#{beanInstrumentoMusical.listaTipoInstrumento}" var="t"
+							itemLabel="#{t.nombre}" itemValue="#{t.id}"></f:selectItems>
+					</p:selectOneMenu>
+					<h:outputText value="Nombre del instrumento" />
+					<p:inputText
+						value="#{beanInstrumentoMusical.nuevoInstrumentoMusical.nombre}"
+						required="true"
+						requiredMessage="Ingrese el nombre del instrumento." />
+					<h:outputText value="Descripción breve:" />
+					<p:inputText
+						value="#{beanInstrumentoMusical.nuevoInstrumentoMusical.descripcion}"
+						required="true"
+						requiredMessage="Ingrese la descripción del instrumento" />
+					<h:outputText value="Material:" />
+					<p:inputText
+						value="#{beanInstrumentoMusical.nuevoInstrumentoMusical.material}"
+						required="true"
+						requiredMessage="Ingrese la descripción del instrumento" />
+					<h:outputText value="Marca:" />
+					<p:inputText
+						value="#{beanInstrumentoMusical.nuevoInstrumentoMusical.marca}"
+						required="true"
+						requiredMessage="Ingrese la descripción del instrumento" />
+					<h:outputText value="Precio:" />
+					<p:inputText
+						value="#{beanInstrumentoMusical.nuevoInstrumentoMusical.precio}"
+						required="true"
+						requiredMessage="Ingrese la descripción del instrumento" />
+					<h:outputText value="Descuento:" />
+					<p:inputText
+						value="#{beanInstrumentoMusical.nuevoInstrumentoMusical.descuento}"
+						required="true"
+						requiredMessage="Ingrese la descripción del instrumento" />
+					<p:commandButton value="Guardar" icon="pi pi-save"
+						update="@form:,formDatos"
+						actionListener="#{beanInstrumentoMusical.actionListenerInsertarInstrumento()}"></p:commandButton>
+				</p:panelGrid>
+			</h:form>
+		</p:overlayPanel>
+		<h:form id="formDatos">
+			<p:dataTable
+				value="#{beanInstrumentoMusical.listaInstrumentoMusical}"
+				var="instrumento" emptyMessage="No hay registros aún.">
+				<p:column headerText="ID">
+					<h:outputText value="#{instrumento.id}" />
+				</p:column>
+				<p:column headerText="TIPO">
+					<h:outputText value="#{instrumento.tipoInstrumento.nombre}" />
+				</p:column>
+				<p:column headerText="NOMBRE">
+					<h:outputText value="#{instrumento.nombre}" />
+				</p:column>
+				<p:column headerText="DESCRIPCIÓN">
+					<h:outputText value="#{instrumento.descripcion}" />
+				</p:column>
+				<p:column headerText="MATERIAL">
+					<h:outputText value="#{instrumento.material}" />
+				</p:column>
+				<p:column headerText="MARCA">
+					<h:outputText value="#{instrumento.marca}" />
+				</p:column>
+				<p:column headerText="PRECIO">
+					<h:outputText value="#{instrumento.precio}" />
+				</p:column>
+				<p:column headerText="DESCUENTO">
+					<h:outputText value="#{instrumento.descuento}" />
+				</p:column>
+				<p:column headerText="OPCIONES">
+					<p:commandButton icon="pi pi-pencil" title="editar"
+						actionListener="#{beanInstrumentoMusical.actionListenerCargarInstrumento(instrumento)}"
+						oncomplete="PF('dialogoEdicion').show()" update=":formEdicion" />
+					<p:commandButton icon="pi pi-times-circle" title="eliminar"
+						styleClass="ui-button-danger" update="@form"
+						actionListener="#{beanInstrumentoMusical.actionListenerEliminarInstrumento(instrumento.id)}">
+						<p:confirm header="Confirmación"
+							message="Desea borrar este registro?" icon="pi pi-info-circle" />
+					</p:commandButton>
+				</p:column>
+			</p:dataTable>
+		</h:form>
+	</p:panel>
+	<p:dialog header="Edición" widgetVar="dialogoEdicion">
+		<h:form id="formEdicion">
+			<p:panelGrid columns="2" layout="grid">
+				<h:outputText value="Tipo de instrumento:" />
+				<p:selectOneMenu filterMatchMode="contains" filter="true"
+					value="#{beanInstrumentoMusical.edicionInstrumentoMusical.tipoInstrumento.id}"
+					rendered="#{beanInstrumentoMusical.edicionInstrumentoMusical != null}">
+					<f:selectItem itemLabel="Seleccione el tipo"
+						noSelectionOption="true" />
+					<f:selectItems
+						value="#{beanInstrumentoMusical.listaTipoInstrumento}" var="t"
+						itemLabel="#{t.nombre}" itemValue="#{t.id}" />
+				</p:selectOneMenu>
+				<h:outputText value="Nombre del instrumento" />
+				<p:inputText
+					value="#{beanInstrumentoMusical.edicionInstrumentoMusical.nombre}"
+					required="true"
+					requiredMessage="Ingrese el nombre del instrumento." />
+				<h:outputText value="Descripción breve:" />
+				<p:inputText
+					value="#{beanInstrumentoMusical.edicionInstrumentoMusical.descripcion}"
+					required="true"
+					requiredMessage="Ingrese la descripción del instrumento" />
+				<h:outputText value="Material:" />
+				<p:inputText
+					value="#{beanInstrumentoMusical.edicionInstrumentoMusical.material}"
+					required="true"
+					requiredMessage="Ingrese la descripción del instrumento" />
+				<h:outputText value="Marca:" />
+				<p:inputText
+					value="#{beanInstrumentoMusical.edicionInstrumentoMusical.marca}"
+					required="true"
+					requiredMessage="Ingrese la descripción del instrumento" />
+				<h:outputText value="Precio:" />
+				<p:inputText
+					value="#{beanInstrumentoMusical.edicionInstrumentoMusical.precio}"
+					required="true"
+					requiredMessage="Ingrese la descripción del instrumento" />
+				<h:outputText value="Descuento:" />
+				<p:inputText
+					value="#{beanInstrumentoMusical.edicionInstrumentoMusical.descuento}"
+					required="true"
+					requiredMessage="Ingrese la descripción del instrumento" />
+				<p:commandButton value="Guardar" icon="pi pi-save"
+					update="@form,:formDatos"
+					actionListener="#{beanInstrumentoMusical.actionListenerGuardarEdicionInstrumento()}"></p:commandButton>
+			</p:panelGrid>
+		</h:form>
+	</p:dialog>
+	<p:confirmDialog global="true" showEffect="fade" hideEffect="fade"
+		responsive="true" width="350">
+		<p:commandButton value="No" type="button"
+			styleClass="ui-confirmdialog-no ui-button-flat" />
+		<p:commandButton value="Sí" type="button"
+			styleClass="ui-confirmdialog-yes" />
+	</p:confirmDialog>
+</body>
+</html>
