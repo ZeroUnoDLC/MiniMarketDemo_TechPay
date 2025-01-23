@@ -1,0 +1,103 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:p="http://primefaces.org/ui">
+    <f:metadata>
+        <f:event listener="#{beanSegLogin.actionVerificarLogin()}"
+            type="preRenderView"></f:event>
+    </f:metadata>
+    <h:head>
+        <title>Resumen de Facturas Anual</title>
+        <style>
+            body {
+                font-family: Arial, sans-serif;
+                margin: 20px;
+                background-color: #f9f9f9;
+            }
+
+            h1 {
+                text-align: center;
+                color: #333;
+            }
+
+            .table-container {
+                margin: 20px auto;
+                width: 90%;
+                background: white;
+                border-radius: 10px;
+                padding: 20px;
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            }
+
+            table {
+                width: 100%;
+                border-collapse: collapse;
+                margin-top: 20px;
+            }
+
+            table th, table td {
+                border: 1px solid #ddd;
+                padding: 10px;
+                text-align: center;
+            }
+
+            table th {
+                background-color: #f4f4f4;
+                text-align: center;
+                vertical-align: middle;
+            }
+
+            .pagination {
+                text-align: center;
+                margin-top: 20px;
+            }
+
+            /* Estilo para centrar solo el encabezado de la columna "CANTIDAD DE FACTURAS" */
+            .center-header {
+                text-align: center !important;
+            }
+        </style>
+    </h:head>
+    <body>
+        <!-- Menú superior -->
+        <h:form>
+            <p:menubar>
+                <p:menuitem value="Regresar" icon="pi pi-home" action="menu" />
+                <f:facet name="options">
+                    <p:menuButton value="#{beanSegLogin.loginDTO.correo}"
+                        icon="pi pi-user">
+                        <p:menuitem value="Perfil" icon="pi pi-cog"></p:menuitem>
+                        <p:menuitem value="Cerrar sesión" icon="pi pi-sign-out"
+                            action="#{beanSegLogin.actionCerrarSesion()}" />
+                    </p:menuButton>
+                </f:facet>
+            </p:menubar>
+        </h:form>
+
+        <h1>Resumen de Facturas Anual</h1>
+
+        <div class="table-container">
+            <!-- Mensaje en caso de errores -->
+            <h:messages style="color: red;" />
+
+            <!-- Tabla con paginación -->
+            <p:dataTable value="#{beanGerente.listaResumenFacturasAnual}"
+                var="resumen" paginator="true" rows="10" responsive="true"
+                styleClass="table"
+                paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}">
+                <!-- Encabezados de la tabla -->
+                <p:column headerText="AÑO" styleClass="center-header">
+                    <h:outputText value="#{resumen.anio}" />
+                </p:column>
+                <p:column headerText="CANTIDAD DE FACTURAS" styleClass="center-header">
+                    <h:outputText value="#{resumen.cantidadFacturas}" />
+                </p:column>
+                <p:column headerText="TOTAL FACTURADO" styleClass="center-header">
+                    <h:outputText value="#{resumen.sumaTotal}" />
+                </p:column>
+            </p:dataTable>
+        </div>
+    </body>
+</html>

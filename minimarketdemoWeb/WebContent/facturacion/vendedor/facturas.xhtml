@@ -1,0 +1,56 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+<f:metadata>
+	<f:event listener="#{beanSegLogin.actionVerificarLogin()}"
+		type="preRenderView"></f:event>
+</f:metadata>
+<h:head>
+	<title>Eventos</title>
+</h:head>
+<body>
+	 <h:form>
+        <p:staticMessage severity="info" summary="Lista de Eventos Disponibles" />
+        
+        <p:dataTable var="evento" value="#{beanFacturacion.listaVwEvento}" 
+                     emptyMessage="No hay eventos disponibles" 
+                     paginator="true" rows="10" 
+                     style="margin-top:20px;" 
+                     reflow="true" 
+                     responsive="true">
+                     
+            <!-- Columna de ID Evento -->
+            <p:column headerText="ID Evento" style="width:10%;">
+                <h:outputText value="#{evento.idEvento}" />
+            </p:column>
+
+            <!-- Columna de Fecha del Evento -->
+            <p:column headerText="Fecha del Evento" style="width:20%;">
+                <h:outputText value="#{evento.fechaEvento}">
+                    <f:convertDateTime pattern="dd/MM/yyyy" />
+                </h:outputText>
+            </p:column>
+
+            <!-- Columna de Descripción -->
+            <p:column headerText="Descripción del Evento" style="width:40%;">
+                <h:outputText value="#{evento.descripcion}" />
+            </p:column>
+
+            <!-- Columna de ID Usuario -->
+            <p:column headerText="ID Usuario" style="width:20%;">
+                <h:outputText value="#{evento.idUsuario}" />
+            </p:column>
+
+            <!-- Columna de Acción (Opcional) -->
+            <p:column headerText="Acciones" style="width:10%;">
+                <p:commandButton value="Ver Detalle" icon="pi pi-search" 
+                                 action="#{beanEvento.verDetalle(evento)}" 
+                                 styleClass="ui-button-info" />
+            </p:column>
+        </p:dataTable>
+    </h:form>
+</body>
+</html>

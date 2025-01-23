@@ -1,0 +1,164 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+<f:metadata>
+	<f:event listener="#{beanSegLogin.actionVerificarLogin()}"
+		type="preRenderView"></f:event>
+</f:metadata>
+<h:head>
+	<title>Resumen de Pedidos Mensual</title>
+	<style>
+/* Estilos generales */
+body {
+	font-family: Arial, sans-serif;
+	margin: 20px;
+	background-color: #f9f9f9;
+}
+
+h1 {
+	text-align: center;
+	color: #333;
+}
+
+.table-container {
+	margin: 20px auto;
+	width: 90%;
+	background: white;
+	border-radius: 10px;
+	padding: 20px;
+	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+table {
+	width: 100%;
+	border-collapse: collapse;
+	margin-top: 20px;
+}
+
+table th, table td {
+	border: 1px solid #ddd;
+	padding: 10px;
+	text-align: center;
+}
+
+table th {
+	background-color: #f4f4f4;
+}
+
+.pagination {
+	text-align: center;
+	margin-top: 20px;
+}
+
+/* Estilo para centrar solo el encabezado de la columna "Cantidad de Pedidos" */
+.center-header {
+	text-align: center !important;
+}
+
+/* Estilos personalizados para los botones */
+.filter-buttons {
+	margin-bottom: 20px;
+	text-align: center;
+}
+
+.filter-buttons .p-button {
+	background-color: #007bff; /* Azul Primario */
+	color: white;
+	border: none;
+	border-radius: 8px;
+	padding: 10px 20px;
+	font-size: 14px;
+	cursor: pointer;
+	transition: background-color 0.3s ease, transform 0.2s ease;
+	margin: 5px;
+}
+
+.filter-buttons .p-button:hover {
+	background-color: #0056b3; /* Azul oscuro */
+	transform: scale(1.05);
+}
+
+.filter-buttons .p-button.p-highlight {
+	background-color: #28a745; /* Verde para destacar */
+}
+
+.filter-buttons .p-button.p-highlight:hover {
+	background-color: #1e7e34; /* Verde oscuro */
+}
+
+.filter-buttons .p-button.p-warning {
+	background-color: #ffc107; /* Amarillo para advertencia */
+}
+
+.filter-buttons .p-button.p-warning:hover {
+	background-color: #e0a800; /* Amarillo oscuro */
+}
+</style>
+</h:head>
+<body>
+	<!-- Menú superior -->
+	<h:form>
+		<p:menubar>
+			<p:menuitem value="Regresar" icon="pi pi-home" action="menu" />
+			<f:facet name="options">
+				<p:menuButton value="#{beanSegLogin.loginDTO.correo}"
+					icon="pi pi-user">
+					<p:menuitem value="Perfil" icon="pi pi-cog"></p:menuitem>
+					<p:menuitem value="Cerrar sesión" icon="pi pi-sign-out"
+						action="#{beanSegLogin.actionCerrarSesion()}" />
+				</p:menuButton>
+			</f:facet>
+		</p:menubar>
+
+		<h1>Resumen de Pedidos Mensual</h1>
+
+		<!-- Botones para filtrar -->
+		<div class="filter-buttons">
+			<p:commandButton value="Todos los Pedidos"
+				action="#{beanGerente.mostrarTodosPedidos()}" update="tablaPedidos"
+				styleClass="p-button" />
+			<p:commandButton value="Pedidos Pendientes"
+				action="#{beanGerente.mostrarPedidosPendientes()}"
+				update="tablaPedidos" styleClass="p-button p-warning" />
+			<p:commandButton value="Pedidos Despachados"
+				action="#{beanGerente.mostrarPedidosDespachados()}"
+				update="tablaPedidos" styleClass="p-button p-highlight" />
+		</div>
+
+
+		<div class="table-container">
+			<!-- Tabla con paginación -->
+			<p:dataTable id="tablaPedidos"
+				value="#{beanGerente.listaResumenPedidos}" var="resumen"
+				paginator="true" rows="10" responsive="true" styleClass="table"
+				paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink}">
+				<!-- Encabezados de la tabla -->
+				<p:column headerText="Año" styleClass="center-header">
+					<h:outputText value="#{resumen.anio}" />
+				</p:column>
+
+				<p:column headerText="Mes" styleClass="center-header">
+					<h:outputText value="#{resumen.mes}" />
+				</p:column>
+
+				<p:column headerText="Estado Pedido" styleClass="center-header">
+					<h:outputText value="#{resumen.estadoPedido}" />
+				</p:column>
+
+				<p:column headerText="Cantidad de Pedidos"
+					styleClass="center-header">
+					<h:outputText value="#{resumen.cantidadPedidos}" />
+				</p:column>
+
+				<p:column headerText="Suma Subtotal" styleClass="center-header">
+					<h:outputText value="#{resumen.sumaSubtotal}" />
+				</p:column>
+			</p:dataTable>
+		</div>
+	</h:form>
+
+</body>
+</html>
