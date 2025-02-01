@@ -17,5 +17,6 @@
 		<class>minimarketdemo.model.core.entities.VwThmConsultaRol</class>
 		<class>minimarketdemo.model.core.entities.InstrumentoMusical</class>
 		<class>minimarketdemo.model.core.entities.TipoInstrumento</class>
+		<class>minimarketdemo.model.core.entities.Transaccion</class>
 	</persistence-unit>
 </persistence>

@@ -1,0 +1,101 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+<f:metadata>
+	<f:event listener="#{beanSegLogin.actionVerificarLogin()}"
+		type="preRenderView" />
+</f:metadata>
+
+<h:head>
+	<title>Historial de Transacciones</title>
+	<h:outputStylesheet
+		name="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" />
+	<h:outputScript
+		name="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" />
+</h:head>
+
+<h:body>
+	<div class="container-fluid mt-4">
+
+		<!-- Mensajes -->
+		<p:growl>
+			<p:autoUpdate />
+		</p:growl>
+
+		<!-- Menú -->
+		<h:form>
+			<p:menubar>
+				<p:menuitem value="Regresar" icon="pi pi-home"
+					styleClass="btn btn-primary" action="menu" />
+				<f:facet name="options">
+					<p:menuButton value="#{beanSegLogin.loginDTO.correo}"
+						icon="pi pi-user">
+						<p:menuitem value="Perfil" icon="pi pi-cog" />
+						<p:menuitem value="Cerrar sesión" icon="pi pi-sign-out"
+							action="#{beanSegLogin.actionCerrarSesion()}" />
+					</p:menuButton>
+				</f:facet>
+			</p:menubar>
+		</h:form>
+		<!-- Título de la página -->
+		<div class="text-center" style="text-align: center;">
+			<h1 class="mb-4">Historial de Transacciones</h1>
+		</div>
+		<!-- Panel con la tabla de transacciones -->
+		<p:panel styleClass="mt-4">
+			<h:form id="formDatos">
+				<p:dataTable value="#{beanTransaccion.listaTransacciones}"
+					var="transaccion" emptyMessage="No hay registros aún."
+					styleClass="table table-striped table-hover table-bordered">
+					<p:column headerText="ID">
+						<h:outputText value="#{transaccion.transaccionId}" />
+					</p:column>
+					<p:column headerText="ID Tarjeta">
+						<h:outputText value="#{transaccion.tarjetaId}" />
+					</p:column>
+					<p:column headerText="Monto">
+						<h:outputText value="#{transaccion.transaccionMonto}" />
+					</p:column>
+					<p:column headerText="Estado">
+						<h:outputText value="#{transaccion.estadotrId}" />
+					</p:column>
+					<p:column headerText="Fecha">
+						<h:outputText value="#{transaccion.transaccionFecha}" />
+					</p:column>
+					<p:column headerText="Moneda">
+						<h:outputText value="#{transaccion.transaccionMoneda}" />
+					</p:column>
+					<p:column headerText="Descripción">
+						<h:outputText value="#{transaccion.transaccionDescripcion}" />
+					</p:column>
+					<p:column headerText="Cliente">
+						<h:outputText value="#{transaccion.clienteId}" />
+					</p:column>
+					<p:column headerText="Opciones">
+						<p:commandButton icon="pi pi-trash" title="Eliminar"
+							styleClass="btn btn-danger" update="@form"
+							actionListener="#{beanTransaccion.actionListenerEliminarTipoInstrumento(transaccion.transaccionId)}">
+							<p:confirm header="Confirmación"
+								message="¿Desea borrar este registro? Esta acción no se puede deshacer."
+								icon="pi pi-info-circle" />
+						</p:commandButton>
+					</p:column>
+				</p:dataTable>
+			</h:form>
+		</p:panel>
+
+		<!-- Diálogo de confirmación -->
+		<p:confirmDialog global="true" showEffect="fade" hideEffect="fade"
+			responsive="true" width="350">
+			<p:commandButton value="No" type="button"
+				styleClass="ui-confirmdialog-no ui-button-flat" />
+			<p:commandButton value="Sí" type="button"
+				styleClass="ui-confirmdialog-yes" />
+		</p:confirmDialog>
+	</div>
+</h:body>
+</html>
