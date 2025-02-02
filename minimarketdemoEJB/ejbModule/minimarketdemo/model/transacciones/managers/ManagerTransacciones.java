@@ -1,4 +1,4 @@
-package minimarketdemo.model.transacciones.dtos;
+package minimarketdemo.model.transacciones.managers;
 
 import java.util.List;
 

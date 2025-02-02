@@ -9,7 +9,7 @@ import javax.inject.Named;
 
 import minimarketdemo.controller.JSFUtil;
 import minimarketdemo.model.core.entities.Transaccion;
-import minimarketdemo.model.transacciones.dtos.ManagerTransacciones;
+import minimarketdemo.model.transacciones.managers.ManagerTransacciones;
 
 @Named
 @SessionScoped

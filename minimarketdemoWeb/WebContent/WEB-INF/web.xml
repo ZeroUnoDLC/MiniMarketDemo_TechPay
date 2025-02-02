@@ -16,20 +16,4 @@
     <servlet-name>Faces Servlet</servlet-name>
     <url-pattern>/faces/*</url-pattern>
   </servlet-mapping>
-  
-  <!-- Configuración para JAX-RS -->
-  <servlet>
-    <servlet-name>JAX-RS Servlet</servlet-name>
-    <servlet-class>org.jboss.resteasy.plugins.server.servlet.HttpServletDispatcher</servlet-class>
-    <init-param>
-      <param-name>javax.ws.rs.Application</param-name>
-      <param-value>minimarketdemo.webhook.pasarela.ApplicationConfig</param-value>
-    </init-param>
-    <load-on-startup>1</load-on-startup>
-  </servlet>
-  <servlet-mapping>
-    <servlet-name>JAX-RS Servlet</servlet-name>
-    <url-pattern>/api/*</url-pattern>
-  </servlet-mapping>
-  
 </web-app>
