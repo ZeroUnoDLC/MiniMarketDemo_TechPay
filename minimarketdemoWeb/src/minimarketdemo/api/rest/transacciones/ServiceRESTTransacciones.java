@@ -1,4 +1,4 @@
-package minimarketdemo.api.rest.webhook;
+package minimarketdemo.api.rest.transacciones;
 
 import javax.ejb.EJB;
 import javax.ws.rs.Consumes;
@@ -7,15 +7,18 @@ import javax.ws.rs.Path;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import minimarketdemo.model.transacciones.dtos.PaymentNotificationDTO;
 import minimarketdemo.model.transacciones.managers.ManagerTransacciones;
+import minimarketdemo.api.rest.security.Secured;
 import minimarketdemo.model.core.entities.Transaccion;
 
-@Path("/webhook")
-public class PaymentWebhookResource {
+@Path("webhook/transacciones")
+public class ServiceRESTTransacciones {
 
     @EJB
     private ManagerTransacciones managerTransacciones;
 
+    @Secured
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     public Response recibirNotificacion(PaymentNotificationDTO dto) {

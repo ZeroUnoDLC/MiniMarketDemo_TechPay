@@ -1,4 +1,4 @@
-package minimarketdemo.api.rest.webhook;
+package minimarketdemo.model.transacciones.dtos;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
