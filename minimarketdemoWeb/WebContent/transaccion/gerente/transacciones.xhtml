@@ -1,4 +1,5 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:f="http://java.sun.com/jsf/core"
@@ -41,49 +42,84 @@
 				</f:facet>
 			</p:menubar>
 		</h:form>
+
 		<!-- Título de la página -->
 		<div class="text-center" style="text-align: center;">
 			<h1 class="mb-4">Historial de Transacciones</h1>
 		</div>
+
 		<!-- Panel con la tabla de transacciones -->
 		<p:panel styleClass="mt-4">
+			<!-- Barra de herramientas para la búsqueda global -->
+
+
 			<h:form id="formDatos">
-				<p:dataTable value="#{beanTransaccion.listaTransacciones}"
-					var="transaccion" emptyMessage="No hay registros aún."
-					styleClass="table table-striped table-hover table-bordered">
-					<p:column headerText="ID">
+				<p:poll id="pollTransacciones" interval="1" autoStart="true"
+					listener="#{beanTransaccion.actionCargarMenuTransaccion()}"
+					update="tablaTransacciones" />
+				<p:dataTable id="tablaTransacciones" widgetVar="dtTransacciones"
+					value="#{beanTransaccion.listaTransacciones}" var="transaccion"
+					emptyMessage="No hay registros aún."
+					styleClass="table table-striped table-hover table-bordered"
+					paginator="true" rows="5" rowsPerPageTemplate="5,10,15">
+					<p:column headerText="ID" sortBy="#{transaccion.transaccionId}"
+						filterBy="#{transaccion.transaccionId}" filterMatchMode="contains">
 						<h:outputText value="#{transaccion.transaccionId}" />
 					</p:column>
-					<p:column headerText="ID Tarjeta">
+
+					<p:column headerText="ID Tarjeta" sortBy="#{transaccion.tarjetaId}"
+						filterBy="#{transaccion.tarjetaId}" filterMatchMode="contains">
 						<h:outputText value="#{transaccion.tarjetaId}" />
 					</p:column>
-					<p:column headerText="Monto">
+
+					<p:column headerText="Monto"
+						sortBy="#{transaccion.transaccionMonto}"
+						filterBy="#{transaccion.transaccionMonto}"
+						filterMatchMode="contains">
 						<h:outputText value="#{transaccion.transaccionMonto}" />
 					</p:column>
-					<p:column headerText="Estado">
+
+					<p:column headerText="Estado" sortBy="#{transaccion.estadotrId}"
+						filterBy="#{transaccion.estadotrId}" filterMatchMode="contains">
 						<h:outputText value="#{transaccion.estadotrId}" />
 					</p:column>
-					<p:column headerText="Fecha">
+
+					<p:column headerText="Fecha"
+						sortBy="#{transaccion.transaccionFecha}"
+						filterBy="#{transaccion.transaccionFecha}"
+						filterMatchMode="contains">
 						<h:outputText value="#{transaccion.transaccionFecha}" />
 					</p:column>
-					<p:column headerText="Moneda">
+
+					<p:column headerText="Moneda"
+						sortBy="#{transaccion.transaccionMoneda}"
+						filterBy="#{transaccion.transaccionMoneda}"
+						filterMatchMode="contains">
 						<h:outputText value="#{transaccion.transaccionMoneda}" />
 					</p:column>
-					<p:column headerText="Descripción">
+
+					<p:column headerText="Descripción"
+						sortBy="#{transaccion.transaccionDescripcion}"
+						filterBy="#{transaccion.transaccionDescripcion}"
+						filterMatchMode="contains">
 						<h:outputText value="#{transaccion.transaccionDescripcion}" />
 					</p:column>
-					<p:column headerText="Cliente">
+
+					<p:column headerText="Cliente" sortBy="#{transaccion.clienteId}"
+						filterBy="#{transaccion.clienteId}" filterMatchMode="contains">
 						<h:outputText value="#{transaccion.clienteId}" />
 					</p:column>
+
 					<p:column headerText="Opciones">
 						<p:commandButton icon="pi pi-trash" title="Eliminar"
 							styleClass="btn btn-danger" update="@form"
-							actionListener="#{beanTransaccion.actionListenerEliminarTipoInstrumento(transaccion.transaccionId)}">
+							actionListener="#{beanTransaccion.actionListenerEliminarTransaccion(transaccion.transaccionId)}">
 							<p:confirm header="Confirmación"
 								message="¿Desea borrar este registro? Esta acción no se puede deshacer."
 								icon="pi pi-info-circle" />
 						</p:commandButton>
 					</p:column>
+
 				</p:dataTable>
 			</h:form>
 		</p:panel>

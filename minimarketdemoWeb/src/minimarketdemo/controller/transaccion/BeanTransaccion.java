@@ -30,7 +30,7 @@ public class BeanTransaccion implements Serializable {
 	
 	//Insertar transacción 
 	//TODO: hacer que el método coincida con el webhook
-	public void actionListenerInsertarTipoInstrumento(){
+	public void actionListenerInsertarTransaccion(){
 		try {
 			mTransaccion.insertarTransaccion(nuevaTransaccion);
 		} catch (Exception e) {
@@ -41,7 +41,7 @@ public class BeanTransaccion implements Serializable {
 	}
 	
 	//Eliminar transacción
-	public void actionListenerEliminarTipoInstrumento(int idTransaccion) {
+	public void actionListenerEliminarTransaccion(long idTransaccion) {
 		try {
 			mTransaccion.eliminarTransaccion(idTransaccion);
 			listaTransacciones= mTransaccion.findAllTransaccion();

@@ -27,11 +27,11 @@ public class ManagerTransacciones {
     // Listar todas las transacciones
     @SuppressWarnings("unchecked")
 	public List<Transaccion> findAllTransaccion(){
-    	return mDAO.findAll(Transaccion.class);
+    	return mDAO.findAll(Transaccion.class,"transaccionFecha",false);
     }
     
     // Método para buscar una transacción por ID
-    public Transaccion findTransaccionById(Integer idTransaccion) throws Exception {
+    public Transaccion findTransaccionById(long idTransaccion) throws Exception {
         return (Transaccion) mDAO.findById(Transaccion.class, idTransaccion);
     }
     
@@ -56,7 +56,7 @@ public class ManagerTransacciones {
     }
     
     // Método para eliminar una transacción por ID
-    public void eliminarTransaccion(Integer idTransaccion) throws Exception {
+    public void eliminarTransaccion(long idTransaccion) throws Exception {
         try {
             Transaccion transaccion = findTransaccionById(idTransaccion);
             if (transaccion != null) {
